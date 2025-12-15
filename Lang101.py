@@ -56,3 +56,42 @@ chat_chain = template | llm
 math = "What is twelve multiplied by twelve?"
 response = chat_chain.invoke({"math": math})
 print(response)
+
+# -------------------------------------------------------------
+# ------------------ FewShotPromptTemplate --------------------
+# -------------------------------------------------------------
+from langchain_core.prompts import PromptTemplate
+from langchain_core.prompts import FewShotPromptTemplate
+
+# Few-shot examples that demonstrate the task pattern
+examples = [
+    {"question": "What is the capital of France?", "answer": "Paris"},
+    {"question": "What is the capital of Japan?", "answer": "Tokyo"},
+    {"question": "What is the capital of Canada?", "answer": "Ottawa"},
+]
+
+# How each example is formatted
+example_prompt = PromptTemplate.from_template(
+    "Question: {question}\nAnswer: {answer}"
+)
+
+# Prefix and suffix wrap the examples and the new user input
+prefix = "You are a helpful assistant that answers geography questions.\nHere are some examples:"
+suffix = "Now answer the new question.\nQuestion: {question}\nAnswer:"
+
+# Build the FewShotPromptTemplate
+few_shot_prompt = FewShotPromptTemplate(
+    examples=examples,
+    example_prompt=example_prompt,
+    prefix=prefix,
+    suffix=suffix,
+    input_variables=["question"],
+)
+
+# Create a chain with the few-shot prompt
+fewshot_chain = few_shot_prompt | llm
+
+# Invoke the chain with a similar-style question
+question = "What is the capital of Germany?"
+response = fewshot_chain.invoke({"question": question})
+print(f"Question: {question}\n\n{response}")
