@@ -71,9 +71,7 @@ examples = [
 ]
 
 # How each example is formatted
-example_prompt = PromptTemplate.from_template(
-    "Question: {question}\nAnswer: {answer}"
-)
+example_prompt = PromptTemplate.from_template("Question: {question}\nAnswer: {answer}")
 
 # Prefix and suffix wrap the examples and the new user input
 prefix = "You are a helpful assistant that answers geography questions.\nHere are some examples:"
