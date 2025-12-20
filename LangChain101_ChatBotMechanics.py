@@ -93,3 +93,5 @@ fewshot_chain = few_shot_prompt | llm
 question = "What is the capital of Germany?"
 response = fewshot_chain.invoke({"question": question})
 print(f"Question: {question}\n\n{response}")
+
+# -------------------------------------------------------------
