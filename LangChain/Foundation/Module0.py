@@ -17,7 +17,6 @@ def _get(base, **params):
     with urllib.request.urlopen(url, timeout=10) as resp:
         return json.load(resp)
 
-
 @tool
 def get_weather(city: str) -> str:
     """Get the current weather for a city. Input is a plain city name, e.g. "Tokyo"."""
@@ -36,7 +35,6 @@ def get_weather(city: str) -> str:
         f"Weather in {place['name']}, {place.get('country', '')}: "
         f"{w['temperature']}°C, wind {w['windspeed']} km/h."
     )
-
 
 agent = create_agent(model=ChatOpenAI(model="gpt-4o-mini", temperature=0), tools=[get_weather])
 
