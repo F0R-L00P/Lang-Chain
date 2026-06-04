@@ -75,13 +75,3 @@ htmlcov/
 # Vector stores
 # ======================
 chroma_cp_theory/
-
-# ======================
-# LangGraph
-# ======================
-LangGraph/graph.json
-*.mmd
-# ======================
-# images
-# ======================
-*.png
