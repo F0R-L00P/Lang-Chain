@@ -1,0 +1,87 @@
+# ======================
+# Environment variables
+# ======================
+.env
+.env.*
+*.env
+*.venv
+# ======================
+# Python
+# ======================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdf
+
+# ======================
+# Virtual environments
+# ======================
+.venv/
+venv/
+env/
+ENV/
+virtualenv/
+
+# ======================
+# Jupyter
+# ======================
+.ipynb_checkpoints/
+
+# ======================
+# Build / distribution
+# ======================
+build/
+dist/
+*.egg-info/
+
+# ======================
+# Logs
+# ======================
+*.log
+
+# ======================
+# Model / cache files
+# ======================
+.cache/
+.cache/**
+.huggingface/
+.hf/
+models/
+checkpoints/
+
+# ======================
+# OS / editor noise
+# ======================
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# ======================
+# Testing / coverage
+# ======================
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ======================
+# Misc
+# ======================
+*.tmp
+*.swp
+
+# ======================
+# Vector stores
+# ======================
+chroma_cp_theory/
+
+# ======================
+# LangGraph
+# ======================
+LangGraph/graph.json
+*.mmd
+# ======================
+# images
+# ======================
+*.png
