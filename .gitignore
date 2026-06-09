@@ -39,7 +39,8 @@ dist/
 # Logs
 # ======================
 *.log
-
+*.json
+.json
 # ======================
 # Model / cache files
 # ======================
@@ -85,3 +86,4 @@ LangGraph/graph.json
 # images
 # ======================
 *.png
+
