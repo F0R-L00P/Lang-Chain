@@ -8,13 +8,17 @@ import urllib.request
 from pathlib import Path
 
 from dotenv import load_dotenv
+from typing import Annotated, TypedDict
+
+
 from langchain_core.tools import tool
-from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
+from langchain_core.messages import HumanMessage, SystemMessage
+
 from langgraph.graph import StateGraph, START
 from langgraph.graph.message import add_messages
 from langgraph.prebuilt import ToolNode, tools_condition
-from typing import Annotated, TypedDict
+from langgraph.checkpoint.memory import InMemorySaver
 
 load_dotenv()  # expects OPENAI_API_KEY in .env
 
@@ -56,6 +60,7 @@ def _resolve_artist(name):
 
 
 # --- Tools the LLM can call -------------------------------------------------
+
 
 @tool
 def search_tracks(query: str, limit: int = 8) -> str:
@@ -124,6 +129,7 @@ def get_genre_top_artists(genre_id: int, limit: int = 10) -> str:
 
 # --- Graph ------------------------------------------------------------------
 
+
 class State(TypedDict):
     messages: Annotated[list, add_messages]
 
@@ -144,7 +150,9 @@ tools = [
     list_genres,
     get_genre_top_artists,
 ]
-model = ChatOpenAI(model="gpt-4o-mini", temperature=0.3).bind_tools(tools)
+model = ChatOpenAI(
+    model="gpt-4o-mini", temperature=0.0, checkpointer=InMemorySaver()
+).bind_tools(tools)
 
 
 def agent_node(state: State) -> State:
