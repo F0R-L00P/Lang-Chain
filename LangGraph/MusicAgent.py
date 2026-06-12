@@ -36,7 +36,7 @@ def _deezer_get(path, **params):
     if params:
         url += "?" + urllib.parse.urlencode(params)
 
-    for attempt in range(2):
+    for attempt in range(3):
         with urllib.request.urlopen(url, timeout=10) as resp:
             data = json.load(resp)
 
@@ -63,12 +63,12 @@ def _resolve_artist(name):
 
 
 @tool
-def search_tracks(query: str, limit: int = 8) -> str:
+def search_tracks(query: str, limit: int = 5) -> str:
     """Search Deezer for tracks by free text.
 
     Supports Deezer's advanced filters inside the query, e.g.
     'artist:"daft punk" track:"around the world"' or 'dur_min:240 rock'.
-    Returns a list of "Title - Artist (Album)" with a 30s preview URL.
+    Returns a list of "Title - Artist (Album)" AND a 20s preview URL.
     """
     tracks = _deezer_get("/search", q=query, limit=limit).get("data", [])
     if not tracks:
@@ -82,7 +82,7 @@ def search_tracks(query: str, limit: int = 8) -> str:
 
 
 @tool
-def find_similar_artists(artist: str, limit: int = 8) -> str:
+def find_similar_artists(artist: str, limit: int = 5) -> str:
     """Find artists similar to the given artist name (Deezer /artist/{id}/related)."""
     seed = _resolve_artist(artist)
     if not seed:
@@ -136,11 +136,12 @@ class State(TypedDict):
 
 SYSTEM_PROMPT = (
     "You are a music recommendation assistant powered by the Deezer catalog. "
-    "Given a seed (an artist, song, genre, or mood), use the tools to discover "
+    "Given an artist, song, genre, or mood, use the tools to discover "
     "similar artists and their popular tracks, then recommend a short, varied "
     "playlist. Prefer find_similar_artists + get_artist_top_tracks for "
     "artist/song seeds, and list_genres + get_genre_top_artists for genre/mood "
-    "seeds. Always end with a clean numbered playlist of 'Title - Artist'."
+    "seeds. Always end with a clean numbered playlist of 'Title - Artist'. "
+    "Each recommendation must be followed by a sample preview, if available."
 )
 
 tools = [
@@ -150,9 +151,9 @@ tools = [
     list_genres,
     get_genre_top_artists,
 ]
-model = ChatOpenAI(
-    model="gpt-4o-mini", temperature=0.0, checkpointer=InMemorySaver()
-).bind_tools(tools)
+model = ChatOpenAI(model="gpt-4o-mini", temperature=0.0).bind_tools(
+    tools
+)  # , checkpointer=InMemorySaver()
 
 
 def agent_node(state: State) -> State:
