@@ -13,3 +13,8 @@ dependencies = [
     "python-dotenv>=1.2.2",
     "streamlit>=1.40.0",
 ]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.2.0",
+]
