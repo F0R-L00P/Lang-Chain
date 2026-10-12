@@ -87,3 +87,6 @@ LangGraph/graph.json
 # ======================
 *.png
 
+*.claude
+*.venv
+
