@@ -20,7 +20,7 @@ messages = [
 response = generator(
     messages,
     max_new_tokens=100,
-    do_sample=False,  # makes the response more predictable, which is useful for code.
+    do_sample=False,  # short responses  for code.
 )
 
 generated_code = response[0]["generated_text"][-1]["content"]
